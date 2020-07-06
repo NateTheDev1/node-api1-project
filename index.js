@@ -1,13 +1,26 @@
 const express = require("express");
 const server = express();
 const shortid = require("shortid");
+const cors = require("cors");
 server.use(express.json());
+server.use(cors());
 
 server.get("/", (req, res) => {
   res.send("<h1>NodeProject1</h1>");
 });
 
-let users = [];
+let users = [
+  {
+    name: "Nathaniel Richards",
+    bio: "This is a simple bio",
+    id: shortid.generate(),
+  },
+  {
+    name: "Nicholas Galluci",
+    bio: "Web31 TL",
+    id: shortid.generate(),
+  },
+];
 server.post("/api/users", (req, res) => {
   if (req.body.name === undefined || req.body.bio === undefined) {
     return res
@@ -24,9 +37,6 @@ server.post("/api/users", (req, res) => {
 
 server.get("/api/users", (req, res) => {
   res.json(users);
-  res
-    .status(500)
-    .json({ errorMessage: "The users information could not be retrieved." });
 });
 
 server.get("/api/users/:id", (req, res) => {
